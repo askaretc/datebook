@@ -34,10 +34,19 @@ public class TaskService {
     public void remove(int id) throws TaskNotFoundException {
         for (Map.Entry<Integer, Task> entry : tasksMap.entrySet()) {
             if (entry.getKey() == id) {
+                removedTasks.add(entry.getValue());
                 tasksMap.remove(entry.getKey());
             } else {
                 throw new TaskNotFoundException("There is no task with this id.");
             }
+        }
+    }
+
+    public Set<Task> getAllRemovedTasks() throws TaskNotFoundException {
+        if (removedTasks.isEmpty()) {
+            throw new TaskNotFoundException("There are no removed tasks.");
+        } else {
+            return removedTasks;
         }
     }
 }

@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 
 public class Program {
@@ -37,7 +38,8 @@ public class Program {
             System.out.print("\nCommands: \n\"e\", \"exit\" — to exit; " +
                     "\n\"v\", \"view\" — to view some tasks by date; " +
                     "\n\"c\", \"create\" — to create some task; " +
-                    "\n\"r\", \"remove\" — to remove some task. \n\nWrite a command: ");
+                    "\n\"r\", \"remove\" — to remove some task; " +
+                    "\n\"s\", \"show\" — to show all removed tasks. \n\nWrite a command: ");
             String command = new Scanner(System.in).nextLine();
             switch (command) {
                 case "e":
@@ -60,6 +62,11 @@ public class Program {
                     removeATask();
                     check = true;
                     break;
+                case "s":
+                case "show":
+                    printAllRemovedTasks();
+                    check = true;
+                    break;
                 default:
                     System.out.println("There is no such command. Please try again.");
                     check = true;
@@ -76,6 +83,17 @@ public class Program {
                 System.out.println(task);
             }
         } catch (DateTimeException | TaskNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void printAllRemovedTasks() {
+        try {
+            Set<Task> set = taskService.getAllRemovedTasks();
+            for (Task task : set) {
+                System.out.println(task);
+            }
+        } catch (TaskNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
